@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CoronaStatistics</string>
+    <string name="total_cases">https://covid.ourworldindata.org/data/ecdc/total_cases.csv</string>
+    <string name="total_deaths">https://covid.ourworldindata.org/data/ecdc/total_deaths.csv</string>
+    <string name="new_cases">https://covid.ourworldindata.org/data/ecdc/new_cases.csv</string>
+    <string name="new_deaths">https://covid.ourworldindata.org/data/ecdc/new_deaths.csv</string>
+</resources>
