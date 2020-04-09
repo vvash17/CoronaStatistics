@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -23,7 +22,7 @@ public class DataDownloader extends AsyncTask<ScrappedDataTypes, Integer, Long> 
 
     @Override
     protected Long doInBackground(ScrappedDataTypes... scrappedDataTypes) {
-        Queue<ScrappedDataTypes> dataToDownload = new PriorityQueue<>(Arrays.asList(scrappedDataTypes));
+        PriorityQueue<ScrappedDataTypes> dataToDownload = new PriorityQueue<>(Arrays.asList(scrappedDataTypes));
         int tries = 100;
 
         boolean headlinesWritten = false;
@@ -51,12 +50,11 @@ public class DataDownloader extends AsyncTask<ScrappedDataTypes, Integer, Long> 
                 }
                 validateAndInitialize(previousLine, scrappedDataType);
             } catch (Exception ex) {
+                urlStorage.reinitializeCertainConnection(scrappedDataType);
                 dataToDownload.add(scrappedDataType);
                 tries--;
             }
         }
-
-
         return null;
     }
 

@@ -1,7 +1,6 @@
 package com.example.coronastatistics;
 
 import android.content.res.Resources;
-import android.os.Handler;
 
 import java.net.URL;
 
@@ -40,34 +39,23 @@ public class URLStorage {
     }
 
     private void initializeConnections() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-                try {
-                    totalDeathsUrlConnection = (HttpsURLConnection) totalDeathsUrl.openConnection();
-                    newCasesUrlConnection = (HttpsURLConnection) newCasesUrl.openConnection();
-                    newDeathsUrlConnection = (HttpsURLConnection) newDeathsUrl.openConnection();
-                    totalCasesUrlConnection = (HttpsURLConnection) totalCasesUrl.openConnection();
-                } catch (Exception ignored) {
-
-                }
-//            }
-//        }, 1000);
+        try {
+            totalDeathsUrlConnection = (HttpsURLConnection) totalDeathsUrl.openConnection();
+            newCasesUrlConnection = (HttpsURLConnection) newCasesUrl.openConnection();
+            newDeathsUrlConnection = (HttpsURLConnection) newDeathsUrl.openConnection();
+            totalCasesUrlConnection = (HttpsURLConnection) totalCasesUrl.openConnection();
+        } catch (Exception ignored) {
+        }
     }
 
     private void connectToConnections() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-                try {
-                    totalDeathsUrlConnection.connect();
-                    newCasesUrlConnection.connect();
-                    newDeathsUrlConnection.connect();
-                    totalCasesUrlConnection.connect();
-                } catch (Exception ignored) {
-                }
-//            }
-//        }, 1000);
+        try {
+            totalDeathsUrlConnection.connect();
+            newCasesUrlConnection.connect();
+            newDeathsUrlConnection.connect();
+            totalCasesUrlConnection.connect();
+        } catch (Exception ignored) {
+        }
     }
 
     public URL getTotalDeathsUrl() {
@@ -100,5 +88,54 @@ public class URLStorage {
 
     public HttpsURLConnection getTotalCasesUrlConnection() {
         return totalCasesUrlConnection;
+    }
+
+    private void reinitializeTotalDeathsConnection() {
+        try {
+            totalDeathsUrlConnection = (HttpsURLConnection) totalDeathsUrl.openConnection();
+            totalDeathsUrlConnection.connect();
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void reinitializeNewCasesConnection() {
+        try {
+            newCasesUrlConnection = (HttpsURLConnection) newCasesUrl.openConnection();
+            newCasesUrlConnection.connect();
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void reinitializeTotalCasesConnection() {
+        try {
+            totalCasesUrlConnection = (HttpsURLConnection) totalCasesUrl.openConnection();
+            totalCasesUrlConnection.connect();
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void reinitializeNewDeathsConnection() {
+        try {
+            newDeathsUrlConnection = (HttpsURLConnection) newDeathsUrl.openConnection();
+            newDeathsUrlConnection.connect();
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void reinitializeCertainConnection(ScrappedDataTypes scrappedDataType) {
+        switch (scrappedDataType) {
+            case TOTAL_CASES:
+                reinitializeTotalCasesConnection();
+                break;
+            case TOTAL_DEATHS:
+                reinitializeTotalDeathsConnection();
+                break;
+            case NEW_CASES:
+                reinitializeNewCasesConnection();
+                break;
+            default:
+                reinitializeNewDeathsConnection();
+                break;
+        }
     }
 }

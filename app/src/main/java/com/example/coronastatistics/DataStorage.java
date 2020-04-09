@@ -1,6 +1,9 @@
 package com.example.coronastatistics;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -63,5 +66,15 @@ public class DataStorage {
         while (tokenizer.hasMoreTokens()) {
             data.get(counter++).setTotalDeaths(Integer.parseInt(tokenizer.nextToken()));
         }
+    }
+
+    public Iterator<Long> getDataIterator() {
+        ArrayList<Long> dataIdentifiers = new ArrayList<>(data.keySet());
+        Collections.sort(dataIdentifiers);
+        return dataIdentifiers.iterator();
+    }
+
+    public DataValues getDataValues(long identifier) {
+        return data.get(identifier);
     }
 }
