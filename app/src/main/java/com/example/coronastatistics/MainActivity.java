@@ -25,7 +25,7 @@ import android.os.Handler;
 public class MainActivity extends Activity {
 
     private URLStorage urlStorage;
-
+    private Handler handler;
     private DataStorage dataStorage;
 
     @SuppressLint("StaticFieldLeak")
@@ -33,14 +33,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        handler = new Handler();
         urlStorage = new URLStorage(this.getResources());
-        new Handler().postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dataStorage = new DataStorage();
             }
         }, 1000);
-        new Handler().postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 initialize();

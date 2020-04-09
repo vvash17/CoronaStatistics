@@ -40,9 +40,9 @@ public class URLStorage {
     }
 
     private void initializeConnections() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 try {
                     totalDeathsUrlConnection = (HttpsURLConnection) totalDeathsUrl.openConnection();
                     newCasesUrlConnection = (HttpsURLConnection) newCasesUrl.openConnection();
@@ -51,15 +51,14 @@ public class URLStorage {
                 } catch (Exception ignored) {
 
                 }
-            }
-        }, 1000);
+//            }
+//        }, 1000);
     }
 
     private void connectToConnections() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 try {
                     totalDeathsUrlConnection.connect();
                     newCasesUrlConnection.connect();
@@ -67,9 +66,8 @@ public class URLStorage {
                     totalCasesUrlConnection.connect();
                 } catch (Exception ignored) {
                 }
-            }
-        }, 1000);
-
+//            }
+//        }, 1000);
     }
 
     public URL getTotalDeathsUrl() {
