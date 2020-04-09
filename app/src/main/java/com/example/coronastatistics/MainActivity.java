@@ -50,8 +50,8 @@ public class MainActivity extends Activity {
 
     //comment out  urlStorage.getTotalDeathsUrlConnection()
     private void initialize() {
-        new DataDownloader(dataStorage).execute(urlStorage.getNewCasesUrlConnection(), urlStorage.getNewDeathsUrlConnection()
-                , urlStorage.getTotalCasesUrlConnection());
+        new DataDownloader(dataStorage, urlStorage).execute(ScrappedDataTypes.NEW_CASES, ScrappedDataTypes.NEW_DEATHS,
+                ScrappedDataTypes.TOTAL_CASES, ScrappedDataTypes.TOTAL_DEATHS);
     }
 
 }

@@ -5,54 +5,70 @@ import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-public class DataDownloader extends AsyncTask<HttpURLConnection, Integer, Long> {
+import javax.net.ssl.HttpsURLConnection;
+
+public class DataDownloader extends AsyncTask<ScrappedDataTypes, Integer, Long> {
 
     private DataStorage dataStorage;
+    private URLStorage urlStorage;
 
-    public DataDownloader(DataStorage dataStorage) {
+    public DataDownloader(DataStorage dataStorage, URLStorage urlStorage) {
         this.dataStorage = dataStorage;
+        this.urlStorage = urlStorage;
     }
 
     @Override
-    protected Long doInBackground(HttpURLConnection... httpURLConnections) {
-        try {
-            boolean headlinesWritten = false;
-            InputStream is;
-            BufferedReader br;
-            for (int i = 0; i < httpURLConnections.length; i++) {
-                is = httpURLConnections[i].getInputStream();
-                br = new BufferedReader(new InputStreamReader(is));
+    protected Long doInBackground(ScrappedDataTypes... scrappedDataTypes) {
+        Queue<ScrappedDataTypes> dataToDownload = new PriorityQueue<>(Arrays.asList(scrappedDataTypes));
+        int tries = 100;
+
+        boolean headlinesWritten = false;
+        InputStream inputStream;
+        BufferedReader bufferedReader;
+
+        while (true) {
+            if (dataToDownload.isEmpty() || tries == 0) break;
+            ScrappedDataTypes scrappedDataType = dataToDownload.poll();
+            HttpsURLConnection httpsURLConnection = getAssociatedConnection(scrappedDataType);
+
+            try {
+                inputStream = httpsURLConnection.getInputStream();
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 if (!headlinesWritten) {
-                    dataStorage.initializeHeadlines(br.readLine());
+                    dataStorage.initializeHeadlines(bufferedReader.readLine());
                     headlinesWritten = true;
                 }
                 String previousLine = null;
                 String newLine = null;
                 while (true) {
                     previousLine = newLine;
-                    newLine = br.readLine();
+                    newLine = bufferedReader.readLine();
                     if (newLine == null) break;
                 }
-                validateAndInitialize(previousLine, i);
+                validateAndInitialize(previousLine, scrappedDataType);
+            } catch (Exception ex) {
+                dataToDownload.add(scrappedDataType);
+                tries--;
             }
-            String s = "sad";
-        } catch (Exception ex) {
-            System.out.println(ex.toString());
         }
+
+
         return null;
     }
 
-    private void validateAndInitialize(String dataLine, int position) {
-        switch (position) {
-            case 0:
+    private void validateAndInitialize(String dataLine, ScrappedDataTypes scrappedDataType) {
+        switch (scrappedDataType) {
+            case NEW_CASES:
                 dataStorage.initializeNewCaseValues(dataLine);
                 break;
-            case 1:
+            case NEW_DEATHS:
                 dataStorage.initializeNewDeathValues(dataLine);
                 break;
-            case 2:
+            case TOTAL_CASES:
                 dataStorage.initializeTotalCaseValues(dataLine);
                 break;
             default:
@@ -61,6 +77,18 @@ public class DataDownloader extends AsyncTask<HttpURLConnection, Integer, Long> 
         }
     }
 
+    private HttpsURLConnection getAssociatedConnection(ScrappedDataTypes scrappedDataType) {
+        switch (scrappedDataType) {
+            case TOTAL_CASES:
+                return urlStorage.getTotalCasesUrlConnection();
+            case TOTAL_DEATHS:
+                return urlStorage.getTotalDeathsUrlConnection();
+            case NEW_CASES:
+                return urlStorage.getNewCasesUrlConnection();
+            default:
+                return urlStorage.getNewDeathsUrlConnection();
+        }
+    }
 //    @Override
 //    protected void onProgressUpdate(Integer... progress)
 //    {
