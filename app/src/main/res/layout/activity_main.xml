@@ -6,99 +6,100 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainDataLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/countryGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainDataLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/newCasesGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.2" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/countryGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/newDeathsGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.4" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/newCasesGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/totalCasesGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.6" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/newDeathsGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/totalDeathsGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.8" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/totalCasesGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.6" />
 
-        <LinearLayout
-            android:id="@+id/newDeathsLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/totalCasesGuideline"
-            app:layout_constraintStart_toStartOf="@id/newDeathsGuideline"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/totalDeathsGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
 
-        <LinearLayout
-            android:id="@+id/totalDeathsLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/totalDeathsGuideline"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            <LinearLayout
+                android:id="@+id/newDeathsLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/totalCasesGuideline"
+                app:layout_constraintStart_toStartOf="@id/newDeathsGuideline"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/newCasesLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/newDeathsGuideline"
-            app:layout_constraintStart_toStartOf="@id/newCasesGuideline"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            <LinearLayout
+                android:id="@+id/totalDeathsLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/totalDeathsGuideline"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/countriesLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/newCasesGuideline"
-            app:layout_constraintStart_toStartOf="@id/countryGuideline"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            <LinearLayout
+                android:id="@+id/newCasesLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/newDeathsGuideline"
+                app:layout_constraintStart_toStartOf="@id/newCasesGuideline"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/totalCasesLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/totalDeathsGuideline"
-            app:layout_constraintStart_toStartOf="@id/totalCasesGuideline"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/countriesLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/newCasesGuideline"
+                app:layout_constraintStart_toStartOf="@id/countryGuideline"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/totalCasesLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/totalDeathsGuideline"
+                app:layout_constraintStart_toStartOf="@id/totalCasesGuideline"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

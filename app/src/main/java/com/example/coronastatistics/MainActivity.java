@@ -2,8 +2,13 @@ package com.example.coronastatistics;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +41,7 @@ public class MainActivity extends Activity {
     private LinearLayout newDeathsLayout;
     private LinearLayout totalCasesLayout;
     private LinearLayout totalDeathsLayout;
-
+    private ShapeDrawable cellBorder;
 
     private URLStorage urlStorage;
     private Handler handler;
@@ -59,6 +64,7 @@ public class MainActivity extends Activity {
         totalDeathsLayout = findViewById(R.id.totalDeathsLayout);
 
         handler = new Handler();
+        cellBorder = generateCellBorder();
         urlStorage = new URLStorage(this.getResources());
         handler.postDelayed(new Runnable() {
             @Override
@@ -81,16 +87,53 @@ public class MainActivity extends Activity {
     }
 
     private void fillVisualSide() {
+        fillWithHeaders();
+        fillWithDataValues();
+    }
+
+    private void fillWithHeaders() {
+        TextView country = new TextView(getBaseContext());
+        country.setText("Country");
+        TextView newCases = new TextView(getBaseContext());
+        newCases.setText(String.valueOf("New Cases"));
+        TextView newDeaths = new TextView(getBaseContext());
+        newDeaths.setText(String.valueOf("New Deaths"));
+        TextView totalCases = new TextView(getBaseContext());
+        totalCases.setText(String.valueOf("Total Cases"));
+        TextView totalDeaths = new TextView(getBaseContext());
+        totalDeaths.setText(String.valueOf("TotalDeaths"));
+
+        country.setBackground(cellBorder);
+        newCases.setBackground(cellBorder);
+        newDeaths.setBackground(cellBorder);
+        totalCases.setBackground(cellBorder);
+        totalDeaths.setBackground(cellBorder);
+        int heightPerCell = dataLayout.getHeight() / 20;
+
+        country.setHeight(heightPerCell);
+        newCases.setHeight(heightPerCell);
+        newDeaths.setHeight(heightPerCell);
+        totalCases.setHeight(heightPerCell);
+        totalDeaths.setHeight(heightPerCell);
+
+        country.setGravity(Gravity.CENTER);
+        newCases.setGravity(Gravity.CENTER);
+        newDeaths.setGravity(Gravity.CENTER);
+        totalCases.setGravity(Gravity.CENTER);
+        totalDeaths.setGravity(Gravity.CENTER);
+
+        countriesLayout.addView(country);
+        newCasesLayout.addView(newCases);
+        newDeathsLayout.addView(newDeaths);
+        totalCasesLayout.addView(totalCases);
+        totalDeathsLayout.addView(totalDeaths);
+    }
+
+    private void fillWithDataValues() {
         Iterator<Long> dataIdentifiers = dataStorage.getDataIterator();
         DataValues values;
         while (dataIdentifiers.hasNext()) {
             values = dataStorage.getDataValues(dataIdentifiers.next());
-//            LinearLayout rowLayout = new LinearLayout(getBaseContext());
-//
-//            rowLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//            rowLayout.setOrientation(LinearLayout.HORIZONTAL);
-//            rowLayout.setDividerPadding(10);
-            //children of layout2 LinearLayout
             TextView country = new TextView(getBaseContext());
             country.setText(values.getCountry());
             TextView newCases = new TextView(getBaseContext());
@@ -102,25 +145,24 @@ public class MainActivity extends Activity {
             TextView totalDeaths = new TextView(getBaseContext());
             totalDeaths.setText(String.valueOf(values.getTotalDeaths()));
 
-//            ShapeDrawable sd = new ShapeDrawable();
-//
-//            // Specify the shape of ShapeDrawable
-//            sd.setShape(new RectShape());
-//
-//            // Specify the border color of shape
-//            sd.getPaint().setColor(Color.RED);
-//
-//            // Set the border width
-//            sd.getPaint().setStrokeWidth(10f);
-//
-//            // Specify the style is a Stroke
-//            sd.getPaint().setStyle(Paint.Style.STROKE);
-//
-//            country.setBackground(sd);
-//            newCases.setBackground(sd);
-//            newDeaths.setBackground(sd);
-//            totalCases.setBackground(sd);
-//            totalDeaths.setBackground(sd);
+            country.setBackground(cellBorder);
+            newCases.setBackground(cellBorder);
+            newDeaths.setBackground(cellBorder);
+            totalCases.setBackground(cellBorder);
+            totalDeaths.setBackground(cellBorder);
+            int heightPerCell = dataLayout.getHeight() / 20;
+
+            country.setHeight(heightPerCell);
+            newCases.setHeight(heightPerCell);
+            newDeaths.setHeight(heightPerCell);
+            totalCases.setHeight(heightPerCell);
+            totalDeaths.setHeight(heightPerCell);
+
+            country.setGravity(Gravity.CENTER);
+            newCases.setGravity(Gravity.CENTER);
+            newDeaths.setGravity(Gravity.CENTER);
+            totalCases.setGravity(Gravity.CENTER);
+            totalDeaths.setGravity(Gravity.CENTER);
 
             countriesLayout.addView(country);
             newCasesLayout.addView(newCases);
@@ -136,6 +178,23 @@ public class MainActivity extends Activity {
     private void initializeData() {
         new DataDownloader(dataStorage, urlStorage).execute(ScrappedDataTypes.NEW_CASES, ScrappedDataTypes.NEW_DEATHS,
                 ScrappedDataTypes.TOTAL_CASES, ScrappedDataTypes.TOTAL_DEATHS);
+    }
+
+    private ShapeDrawable generateCellBorder() {
+        ShapeDrawable res = new ShapeDrawable();
+
+        // Specify the shape of ShapeDrawable
+        res.setShape(new RectShape());
+
+        // Specify the border color of shape
+        res.getPaint().setColor(Color.BLACK);
+
+        // Set the border width
+        res.getPaint().setStrokeWidth(5f);
+
+        // Specify the style is a Stroke
+        res.getPaint().setStyle(Paint.Style.STROKE);
+        return res;
     }
 
 }
